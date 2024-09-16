@@ -23,7 +23,6 @@
 *.lai
 *.la
 *.a
-*.lib
 
 # Executables
 *.exe
@@ -72,3 +71,44 @@ Plugins/*/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+
+# Additional Ignore
+Content/*
+.svn
+Config
+*.ini
+Plugins/BlockoutToolsPlugin
+*.vcxproj
+*vcxproj.filters
+*.uproject.user
+*.opendb 
+.sqlite
+.log 
+.DS_Store 
+.DS_Store?
+.Spotlight-V100 
+.Trashes 
+ehthumbs.db 
+Thumbs.db 
+*.exe 
+*.dll 
+*.obj 
+*.a 
+*.so 
+*.dylib 
+*.pso
+*.db 
+*.pdb 
+*.ilk 
+*.ipch 
+*.bak 
+*.zip 
+*.rar 
+*.tmp 
+*.gz 
+*.iso 
+*.7z 
+*.dmp 
+*.vsconfig 
+*.target 
+*.modules
