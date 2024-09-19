@@ -1669,8 +1669,8 @@ void APlayerCharacter::MopInteraction()
 	AMop* Mop = Cast<AMop>(Inventory[CurrentInventoryIndex]);
 	if (Mop)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("MOP DURABILITY : %d"), Mop->Durability)
-			C2S_SetMop(Mop, true);
+		UE_LOG(LogTemp, Warning, TEXT("MOP DURABILITY : %d"), Mop->Durability);
+		C2S_SetMop(Mop, true);
 
 		APlayerController* PC = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 		if (PC)
