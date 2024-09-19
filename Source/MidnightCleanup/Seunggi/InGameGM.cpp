@@ -34,7 +34,7 @@ void AInGameGM::BeginPlay()
 
 	InitCountObject();
 
-	GetWorldTimerManager().SetTimer(TimerHandle,this,&AInGameGM::DecreaseTime, 1.0f, true, 1.0f);
+	GetWorldTimerManager().SetTimer(TimerHandle, this, &AInGameGM::DecreaseTime, 1.0f, true, 1.0f);
 
 	UWorld* World = GetWorld();
 
@@ -45,7 +45,7 @@ void AInGameGM::BeginPlay()
 		{
 			for (FEntityPowerLevel& Entity : Entities)
 			{
-				if (Entity.EntityType == EEntityType::Ghost&&sp->SpawnType==ESpawnType::Ghost)
+				if (Entity.EntityType == EEntityType::Ghost && sp->SpawnType == ESpawnType::Ghost)
 				{
 					Entity.SpawnPoint.Add(sp);
 				}
@@ -89,7 +89,7 @@ void AInGameGM::BeginPlay()
 void AInGameGM::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	
+
 	//if (SpawnAI.Num() < MaxGhostNum)
 	//{
 	//	if (TrashGhost)
@@ -154,7 +154,7 @@ void AInGameGM::ChangeLevel(FString InLevelName)
 	GetWorld()->ServerTravel(InLevelName);
 }
 
-void AInGameGM::CanSpawnEntity(FEntityPowerLevel Object,int32 InTime)
+void AInGameGM::CanSpawnEntity(FEntityPowerLevel Object, int32 InTime)
 {
 	if (MaxPowerLevel - CurrentPowerLevel < Object.PowerLevel)
 	{
@@ -167,14 +167,14 @@ void AInGameGM::CanSpawnEntity(FEntityPowerLevel Object,int32 InTime)
 		int RandomNum = FMath::RandRange(0, 100);
 		if (RandomNum <= Object.CurveFloat->GetFloatValue(InTime))
 		{
-			
+
 			if (Object.Entity->IsChildOf<ABasicGhost>())
 			{
 				if (Object.SpawnPoint.Num() > 0)
 				{
 					int index = FMath::RandRange(0, Object.SpawnPoint.Num() - 1);
 					AGhostSpawnPoint* SpawnPoint = Cast<AGhostSpawnPoint>(Object.SpawnPoint[index]);
-					if(SpawnPoint)
+					if (SpawnPoint)
 					{
 						UE_LOG(LogTemp, Warning, TEXT("Spawn Entity"));
 						SpawnEntity(Object.Entity, SpawnPoint);
@@ -247,6 +247,8 @@ void AInGameGM::InitCountObject()
 		TArray<AActor*> Objects;
 		UGameplayStatics::GetAllActorsOfClass(GetWorld(), AInteractionFurniture::StaticClass(), Objects);
 		GS->InitFurnitureCount = Objects.Num();
+
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), AInteractionWoodenPlank::StaticClass(), Objects);
 		GS->InitWoodCount = Objects.Num();
 
 		UGameplayStatics::GetAllActorsOfClass(GetWorld(), AInteractionTrash::StaticClass(), Objects);
@@ -274,23 +276,26 @@ void AInGameGM::CountObject()
 		TArray<AActor*> Objects;
 		UGameplayStatics::GetAllActorsOfClass(GetWorld(), AInteractionFurniture::StaticClass(), Objects);
 		GS->BreakFurnitureNum = Objects.Num();
+
 		UGameplayStatics::GetAllActorsOfClass(GetWorld(), AInteractionWoodenPlank::StaticClass(), Objects);
+		GS->InitWoodCount = Objects.Num();
 		int32 num = 0;
 		for (AActor* actor : Objects)
 		{
 			AInteractionWoodenPlank* WoodenPlank = Cast<AInteractionWoodenPlank>(actor);
-			if (WoodenPlank&&!WoodenPlank->bIsCleaning)
+			if (WoodenPlank && WoodenPlank->bIsCleaning)
 			{
 				++num;
 			}
 		}
 		GS->WoodenPlankNum = num;
+		
 
 		UGameplayStatics::GetAllActorsOfClass(GetWorld(), AInteractionTrash::StaticClass(), Objects);
 		GS->TrashNum = Objects.Num();
 
 		UGameplayStatics::GetAllActorsOfClass(GetWorld(), ATextureDecal::StaticClass(), Objects);
-		GS->SpawnDecalNum = Objects.Num();
+		GS->InitTextureDecalCount = Objects.Num();
 
 		UGameplayStatics::GetAllActorsOfClass(GetWorld(), AOpacityDecal::StaticClass(), Objects);
 		GS->OpacityDecalNum = Objects.Num();
@@ -318,22 +323,22 @@ void AInGameGM::DecreaseTime()
 {
 
 	AInGameGS* GS = GetGameState<AInGameGS>();
-	if(GS)
+	if (GS)
 	{
 		GS->CurrentPlayTime--;
 		GS->OnRep_UpdateTime();
 
 		UE_LOG(LogTemp, Warning, TEXT("DecreaseTime"));
 		int32 Time = GS->PlayTime - GS->CurrentPlayTime;
-		if (EventTimeIndex<EventTime.Num()&& Time == EventTime[EventTimeIndex])
+		if (EventTimeIndex < EventTime.Num() && Time == EventTime[EventTimeIndex])
 		{
 			for (FEntityPowerLevel Entity : Entities)
 			{
 				CanSpawnEntity(Entity, Time);
 			}
-			if(CurrentPowerLevel < 5)
+			if (CurrentPowerLevel < 5)
 			{
-				for(int i = 0;i<100;i++)
+				for (int i = 0; i < 100; i++)
 				{
 					for (FEntityPowerLevel Entity : Entities)
 					{

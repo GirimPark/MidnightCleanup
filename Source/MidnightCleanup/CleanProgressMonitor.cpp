@@ -34,7 +34,19 @@ void ACleanProgressMonitor::UpdateCount()
 		AInGameGS* GS = Cast<AInGameGS>(UGameplayStatics::GetGameState(GetWorld()));
 		if (GS)
 		{
-			CleanAreaWidget->UpdateCount(GS->BreakFurnitureNum, GS->SpawnDecalNum + GS->OpacityDecalNum, GS->TrashNum, GS->WoodenPlankNum, GS->InitFurnitureCount, GS->InitOpacityDecalCount + GS->InitTextureDecalCount, GS->InitTrashCount, GS->InitWoodCount);
+			CleanAreaWidget->UpdateCount(
+				GS->SpawnDecalNum, 
+				GS->InitOpacityDecalCount - GS->OpacityDecalNum,
+				GS->InitFurnitureCount - GS->BreakFurnitureNum,
+				GS->InitTrashCount - GS->TrashNum,
+				GS->WoodenPlankNum,
+				0, 
+				GS->InitTextureDecalCount, 
+				GS->InitOpacityDecalCount, 
+				GS->InitFurnitureCount,
+				GS->InitTrashCount, 
+				GS->InitWoodCount, 
+				0);
 		}
 	}
 }

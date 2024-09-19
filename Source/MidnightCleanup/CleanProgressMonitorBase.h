@@ -18,35 +18,23 @@ public:
 	virtual void NativeConstruct() override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "CleanProgressMonitor")
-	TObjectPtr<class UProgressBar> FurnitureProgressBar;
+	TObjectPtr<class UCleanProgressBarBase> MopDecalProgressBox;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "CleanProgressMonitor")
-	TObjectPtr<class UProgressBar> DecalProgressBar;
+	TObjectPtr<class UCleanProgressBarBase> SpongeDecalProgressBox;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "CleanProgressMonitor")
-	TObjectPtr<class UProgressBar> TrashProgressBar;
+	TObjectPtr<class UCleanProgressBarBase> FurnitureProgressBox;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "CleanProgressMonitor")
-	TObjectPtr<class UProgressBar> WoodProgressBar;
+	TObjectPtr<class UCleanProgressBarBase> TrashProgressBox;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "CleanProgressMonitor")
-	TObjectPtr<class UEditableTextBox> FurnitureCountBox;
+	TObjectPtr<class UCleanProgressBarBase> WoodProgressBox;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "CleanProgressMonitor")
-	TObjectPtr<class UTextBlock> DecalCountBox;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "CleanProgressMonitor")
-	TObjectPtr<class UTextBlock> TrashCountBox;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "CleanProgressMonitor")
-	TObjectPtr<class UTextBlock> WoodCountBox;
-
+	TObjectPtr<class UCleanProgressBarBase> PropsProgressBox;
 
 	UFUNCTION()
-	void UpdateCount(int32 InFurniture, int32 InDecal, int32 InTrash, int32 InWood, int32 InitFurniture, int32 InitDecal, int32 InitTrash, int32 InitWood);
-
-	float InitFurnitureCount = 0.f;
-	float InitDecalCount = 0.f;
-	float InitTrashCount = 0.f;
-	float InitWoodCount = 0.f;
+	void UpdateCount(int32 InMopDecal, int32 InSpongeDecal, int32 InFurniture, int32 InTrash, int32 InWood, int32 InProps, int32 InitMopDecal, int32 InitSpongeDecal, int32 InitFurniture, int32 InitTrash, int32 InitWood, int32 InitProps);
 };

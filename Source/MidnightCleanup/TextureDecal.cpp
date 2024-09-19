@@ -61,7 +61,7 @@ void ATextureDecal::Destroyed()
 	AInGameGS* GS = Cast<AInGameGS>(UGameplayStatics::GetGameState(GetWorld()));
 	if (GS)
 	{
-		GS->SpawnDecalNum--;
+		GS->SpawnDecalNum++;
 		GS->OnRep_UpdateCount();
 	}
 }

@@ -2,12 +2,10 @@
 
 
 #include "CleanProgressMonitorBase.h"
-#include "Components/TextBlock.h"
-#include "Components/ProgressBar.h"
-#include "Components/EditableTextBox.h"
 #include "Seunggi/InGameGM.h"	
 #include "Seunggi/InGameGS.h"	
 #include "Kismet/GameplayStatics.h"
+#include "CleanProgressBarBase.h"
 
 void UCleanProgressMonitorBase::NativeConstruct()
 {
@@ -15,60 +13,43 @@ void UCleanProgressMonitorBase::NativeConstruct()
 
 	UE_LOG(LogTemp, Warning, TEXT("UCleanProgressMonitorBase::NativeConstruct"));
 
-	FurnitureProgressBar = Cast<UProgressBar>(GetWidgetFromName(TEXT("ProgressBar_Furniture")));
-	DecalProgressBar = Cast<UProgressBar>(GetWidgetFromName(TEXT("ProgressBar_Decal")));
-	TrashProgressBar = Cast<UProgressBar>(GetWidgetFromName(TEXT("ProgressBar_Trash")));
-	WoodProgressBar = Cast<UProgressBar>(GetWidgetFromName(TEXT("ProgressBar_Wood")));
-
-	FurnitureCountBox = Cast<UEditableTextBox>(GetWidgetFromName(TEXT("FurnitureCount")));
-	DecalCountBox = Cast<UTextBlock>(GetWidgetFromName(TEXT("DecalCount")));
-	TrashCountBox = Cast<UTextBlock>(GetWidgetFromName(TEXT("TrashCount")));
-	WoodCountBox = Cast<UTextBlock>(GetWidgetFromName(TEXT("WoodCount")));
-
-	if (FurnitureCountBox)
-	{
-		FurnitureCountBox->SetText(FText::FromString(TEXT("InitText")));
-	}
-
-	if (DecalCountBox)
-	{
-		DecalCountBox->SetText(FText::FromString(TEXT("InitText")));
-	}
-
-	if (TrashCountBox)
-	{
-		TrashCountBox->SetText(FText::FromString(TEXT("InitText")));
-	}
-
-	if (WoodCountBox)
-	{
-		WoodCountBox->SetText(FText::FromString(TEXT("InitText")));
-	}
+	MopDecalProgressBox = Cast<UCleanProgressBarBase>(GetWidgetFromName(TEXT("ProgressBar_MopDecal")));
+	SpongeDecalProgressBox = Cast<UCleanProgressBarBase>(GetWidgetFromName(TEXT("ProgressBar_SpongeDecal")));
+	FurnitureProgressBox = Cast<UCleanProgressBarBase>(GetWidgetFromName(TEXT("ProgressBar_Furniture")));
+	TrashProgressBox = Cast<UCleanProgressBarBase>(GetWidgetFromName(TEXT("ProgressBar_Trash")));
+	WoodProgressBox = Cast<UCleanProgressBarBase>(GetWidgetFromName(TEXT("ProgressBar_Wood")));
+	PropsProgressBox = Cast<UCleanProgressBarBase>(GetWidgetFromName(TEXT("ProgressBar_Props")));
 }
 
-void UCleanProgressMonitorBase::UpdateCount(int32 InFurniture, int32 InDecal, int32 InTrash, int32 InWood, int32 InitFurniture, int32 InitDecal, int32 InitTrash, int32 InitWood)
+void UCleanProgressMonitorBase::UpdateCount(int32 InMopDecal, int32 InSpongeDecal, int32 InFurniture, int32 InTrash, int32 InWood, int32 InProps, int32 InitMopDecal, int32 InitSpongeDecal, int32 InitFurniture, int32 InitTrash, int32 InitWood, int32 InitProps)
 {
-	if (FurnitureCountBox && FurnitureProgressBar)
+	if (MopDecalProgressBox)
 	{
-		FurnitureCountBox->SetText(FText::FromString(FString::FromInt(InFurniture)));
-		FurnitureProgressBar->SetPercent((float)InFurniture / (float)InitFurniture);
+		MopDecalProgressBox->UpdateCount(InMopDecal, InitMopDecal);
 	}
 
-	if (DecalCountBox && DecalProgressBar)
+	if (SpongeDecalProgressBox)
 	{
-		DecalCountBox->SetText(FText::FromString(FString::FromInt(InDecal)));
-		DecalProgressBar->SetPercent((float)InDecal / (float)InitDecal);
+		SpongeDecalProgressBox->UpdateCount(InSpongeDecal, InitSpongeDecal);
 	}
 
-	if (TrashCountBox && TrashProgressBar)
+	if (FurnitureProgressBox)
 	{
-		TrashCountBox->SetText(FText::FromString(FString::FromInt(InTrash)));
-		TrashProgressBar->SetPercent((float)InTrash / (float)InitTrash);
+		FurnitureProgressBox->UpdateCount(InFurniture, InitFurniture);
 	}
 
-	if (WoodCountBox && WoodProgressBar)
+	if (TrashProgressBox)
 	{
-		WoodCountBox->SetText(FText::FromString(FString::FromInt(InWood)));
-		WoodProgressBar->SetPercent((float)InWood / (float)InitWood);
+		TrashProgressBox->UpdateCount(InTrash, InitTrash);
+	}
+
+	if (WoodProgressBox)
+	{
+		WoodProgressBox->UpdateCount(InWood, InitWood);
+	}
+
+	if (PropsProgressBox)
+	{
+		PropsProgressBox->UpdateCount(InProps, InitProps);
 	}
 }
