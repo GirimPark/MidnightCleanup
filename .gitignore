@@ -75,7 +75,6 @@ DerivedDataCache/*
 # Additional Ignore
 Content/*
 .svn
-Config
 *.ini
 Plugins/BlockoutToolsPlugin
 *.vcxproj
