@@ -5,6 +5,7 @@
 
 AInteractionDoor::AInteractionDoor()
 {
+	PrimaryActorTick.bCanEverTick = true;
 	bIsOpened = false;
 	ObjectType = EObjectType::ObjectType_Static;
 	//StaticMesh->SetRelativeLocation(FVector(-110, 0, 0));
