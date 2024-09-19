@@ -10,7 +10,8 @@ void UMainWidgetBase::OnRoomCreated()
 	UGameplayStatics::OpenLevel(this, FName(*CreatedRoomLevelName), true, "listen");
 }
 
-void UMainWidgetBase::OnRoomJoined(FName IpAddress)
+void UMainWidgetBase::OnRoomJoined(FString IpAddress)
 {
-	UGameplayStatics::OpenLevel(this, IpAddress, true);
+	UGameplayStatics::OpenLevel(this, FName(*IpAddress), true);
+	UE_LOG(LogTemp, Warning, TEXT("%s"), TCHAR_TO_UTF8(*IpAddress));
 }

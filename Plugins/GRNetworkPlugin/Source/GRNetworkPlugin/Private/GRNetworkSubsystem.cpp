@@ -9,7 +9,7 @@
 #include "Sockets.h"
 #include "Common/TcpSocketBuilder.h"
 
-void UGRNetworkSubsystem::ConnectToServer()
+void UGRNetworkSubsystem::ConnectToServer(FString IpAddress, int32 Port)
 {
 	Socket = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->CreateSocket(TEXT("Stream"), TEXT("Client Socket"));
 
@@ -19,6 +19,19 @@ void UGRNetworkSubsystem::ConnectToServer()
 	TSharedRef<FInternetAddr> InternetAddr = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->CreateInternetAddr();
 	InternetAddr->SetIp(Ip.Value);
 	InternetAddr->SetPort(Port);
+
+
+	TArray<FString> Args;
+	FString CommandLine = FCommandLine::Get();
+	CommandLine.ParseIntoArrayWS(Args);
+
+	if(!Args.IsEmpty())
+	{
+		FIPv4Address::Parse(Args[0], Ip);
+		InternetAddr = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->CreateInternetAddr();
+		InternetAddr->SetIp(Ip.Value);
+		InternetAddr->SetPort(FCString::Atoi(*Args[1]));
+	}
 
 	if (Socket->Connect(*InternetAddr))
 	{

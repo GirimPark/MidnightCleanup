@@ -16,20 +16,13 @@ class GRNETWORKPLUGIN_API UGRNetworkSubsystem : public UGameInstanceSubsystem
 
 public:
 	UFUNCTION(BlueprintCallable)
-	void ConnectToServer();
+	void ConnectToServer(FString IpAddress, int32 Port);
 
 	UFUNCTION(BlueprintCallable)
 	void DisconnectFromServer();
 
 	UFUNCTION(BlueprintCallable)
 	class ULogicHandler* GetLogicHandler();
-
-public:
-	UPROPERTY(BlueprintReadWrite)
-	FString IpAddress = TEXT("127.0.0.1");
-
-	UPROPERTY(BlueprintReadWrite)
-	int32 Port = 5001;
 
 private:
 	FSocket* Socket;
