@@ -17,6 +17,7 @@ public:
 	void SetOpacity(float Value);
 	void SetToolIconAngle(float Angle);
 	void SetToolIconOpacity(float Value);
+	void SetToolIconSize(float Value);
 	void SetToolIcon(UTexture2D* InTexture, float InOpacity);
 	void SetToolType(EToolType InToolType);
 	EToolType GetToolType();
