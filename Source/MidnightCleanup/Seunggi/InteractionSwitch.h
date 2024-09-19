@@ -15,15 +15,28 @@ class MIDNIGHTCLEANUP_API AInteractionSwitch : public ABasicInteractionObject
 	GENERATED_BODY()
 	
 public:
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
+	class UStaticMeshComponent* Switch;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class AInteractionLightActor* Light;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	uint8 bIsLighting : 1;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FRotator TurnOnRotation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FRotator TurnOffRotation;
+
+	AInteractionSwitch();
+
 	virtual void InterAction(APawn* Character) override;
 
 	virtual void DrawOutline(bool Draw) override;
+
+	virtual void Tick(float DeltaTime)override;
 
 	UFUNCTION(NetMulticast, Reliable)
 	void SetIntensity(float Value);

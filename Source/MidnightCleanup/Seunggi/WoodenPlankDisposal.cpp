@@ -44,14 +44,7 @@ void AWoodenPlankDisposal::Tick(float DeltaTime)
 			AInteractionWoodenPlank* WoodenPlank = Cast<AInteractionWoodenPlank>(Actor);
 			if (WoodenPlank)
 			{
-				if (IsFullyOverlapped(WoodenPlank))
-				{
-					
-				}
-				else
-				{
-
-				}
+				IsFullyOverlapped(WoodenPlank);
 			}
 		}
 	}
@@ -98,31 +91,22 @@ bool AWoodenPlankDisposal::IsFullyOverlapped(AInteractionWoodenPlank* WoodenPlan
 			LocalVertex.Z >Extent.Z)
 		{
 			
-			if (WoodenPlank->bIsCleaning)
+			WoodenPlank->bIsCleaning = false;	
+			AInGameGM* GM = Cast<AInGameGM>(UGameplayStatics::GetGameMode(GetWorld()));
+			if (GM)
 			{
-				if (WoodenPlank && WoodenPlank->bIsCleaning)
-				{
-					AInGameGM* GM = Cast<AInGameGM>(UGameplayStatics::GetGameMode(GetWorld()));
-					if (GM)
-					{
-						GM->CountObject();
-					}
-				}
+				GM->CountObject();
 			}
-			WoodenPlank->bIsCleaning = false;			
 			return false; // If any corner is outside, the object is not fully inside
 		}
 	}
-	if (!WoodenPlank->bIsCleaning)
-	{
-		AInGameGM* GM = Cast<AInGameGM>(UGameplayStatics::GetGameMode(GetWorld()));
-		if (GM)
-		{
-			GM->CountObject();
-		}
-	}
-	WoodenPlank->bIsCleaning = true;
 
+	WoodenPlank->bIsCleaning = true;
+	AInGameGM* GM = Cast<AInGameGM>(UGameplayStatics::GetGameMode(GetWorld()));
+	if (GM)
+	{
+		GM->CountObject();
+	}
 	return true;
 }
 

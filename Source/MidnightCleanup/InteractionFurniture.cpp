@@ -12,18 +12,37 @@
 #include "Seunggi/InGameGM.h"
 #include "PC.h"
 #include "Seunggi/InGameGS.h"
+#include "GeometryCollection\GeometryCollectionComponent.h"
+#include "Chaos/ChaosGameplayEventDispatcher.h"
+#include "Field/FieldSystemComponent.h"
+#include "Field/FieldSystemNodes.h"
+#include "Seunggi\FurnitureFieldSystemActor.h"
 
 AInteractionFurniture::AInteractionFurniture()
 {
 	ObjectType = EObjectType::ObjectType_Furniture;
+	Box->SetBoxExtent(FVector::ZeroVector);
+	
+	Geometry = CreateDefaultSubobject<UGeometryCollectionComponent>(TEXT("Geometry Collection"));
+	Geometry->SetupAttachment(RootComponent);
+	Geometry->SetSimulatePhysics(false);
+	if(StaticMesh)
+	{
+		StaticMesh->DestroyComponent();
+	}
 }
 
 void AInteractionFurniture::BeginPlay()
 {
 	Super::BeginPlay();
 
-	CurrentHp = MaxHp;
+	
+	Box->SetBoxExtent(Geometry->GetLocalBounds().GetExtent());
+	AddActorWorldTransform(FTransform(FVector(0, 0, Box->GetScaledBoxExtent().Z)));
+	Geometry->SetRelativeLocation(FVector(0, 0, -Geometry->GetLocalBounds().GetExtent().Z));
 
+	CurrentHp = MaxHp;
+	//StaticMesh->SetVisibility(false);
 	if (bBreak)
 	{
 		AInGameGM* GM = Cast<AInGameGM>(UGameplayStatics::GetGameMode(GetWorld()));
@@ -57,7 +76,7 @@ void AInteractionFurniture::Destroyed()
 
 void AInteractionFurniture::DrawOutline(bool state)
 {
-	StaticMesh->SetRenderCustomDepth(state);
+	Geometry->SetRenderCustomDepth(state);
 }
 
 void AInteractionFurniture::CreateTrash(uint8 TrashNum)
@@ -79,17 +98,49 @@ void AInteractionFurniture::Axe_Hit(APawn* Character)
 		AAxe* Axe = Cast<AAxe>(Player->OwnedActor);
 		if (Axe)
 		{
+			
 			UE_LOG(LogTemp, Warning, TEXT("AXE"));
 
 			CurrentHp -= 1;
 
 			if (CurrentHp == 0)
 			{
+				
+				S2A_BreakFurniture(500);
 				CreateTrash(SpawnTrashNum);
-				Destroy();
+				FTimerHandle TimerHandle;
+				GetWorldTimerManager().SetTimer(TimerHandle, this,&AInteractionFurniture::SelfDestroy, 1.0f, false, 1.0f);
 			}
 		}
 	}
+}
+
+void AInteractionFurniture::S2A_BreakFurniture_Implementation(float Magnitude)
+{
+	Geometry->SetSimulatePhysics(true);
+	Box->SetCollisionObjectType(ECC_WorldDynamic);
+	Geometry->SetCollisionObjectType(ECC_WorldDynamic);
+	if (FieldSystem == nullptr)
+	{
+		FActorSpawnParameters SpawnParam;
+		SpawnParam.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		FTransform Transform = FTransform(GetActorRotation(), GetActorLocation() + FVector(0, 0, 30), GetActorScale());
+
+		FieldSystem = GetWorld()->SpawnActor<AFurnitureFieldSystemActor>(FieldSystemComponent, Transform, SpawnParam);
+		if (FieldSystem)
+		{
+			FName name = FieldSystem->GetFName();
+			UE_LOG(LogTemp, Warning, TEXT("nme : %s"), *name.ToString());
+		}
+	}
+	
+	FieldSystem->ApplyField(Magnitude);
+	
+}
+
+void AInteractionFurniture::SelfDestroy()
+{
+	Destroy();
 }
 
 void AInteractionFurniture::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

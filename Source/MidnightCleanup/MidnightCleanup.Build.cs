@@ -8,7 +8,7 @@ public class MidnightCleanup : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "AIModule", "AnimGraphRuntime", "UMG", "UniversalVoiceChatPro", "BlockoutToolsPlugin", "Voice", "Landmass", "GRNetworkPlugin" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "AIModule", "AnimGraphRuntime", "UMG", "UniversalVoiceChatPro", "BlockoutToolsPlugin", "Voice", "Landmass", "Chaos", "GeometryCollectionEngine", "FieldSystemEngine" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] { "PacketCore" });
 

@@ -42,7 +42,23 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	uint8 bBreak : 1;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class UGeometryCollectionComponent* Geometry;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<class AFieldSystemActor> FieldSystemComponent;
+
+	class AFurnitureFieldSystemActor* FieldSystem;
+
 	void CreateTrash(uint8 TrashNum);
 
 	void Axe_Hit(APawn* Character);
+
+	UFUNCTION(NetMulticast,Reliable)
+	void S2A_BreakFurniture(float Magnitude);
+	void S2A_BreakFurniture_Implementation(float Magnitude);
+
+	void SelfDestroy();
+
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 };
