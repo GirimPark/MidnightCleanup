@@ -63,6 +63,16 @@ void URadialSectionBase::SetToolIconOpacity(float Value)
 	}
 }
 
+void URadialSectionBase::SetToolIconSize(float Value)
+{
+	if (ToolIconBox)
+	{
+		FSlateBrush Brush = ToolIconBox->GetBrush();
+		Brush.SetImageSize(FVector2D(Value, Value));
+		ToolIconBox->SetBrush(Brush);
+	}
+}
+
 void URadialSectionBase::SetToolIcon(UTexture2D* InTexture, float InOpacity)
 {
 	if (SectionMaterial)

@@ -45,6 +45,7 @@ void URadialUIBase::NativeConstruct()
 		if (Temp)
 		{
 			Temp->SetOpacity(0.f);
+			Temp->SetToolIconSize(100.f);
 		}		
 	}
 
@@ -197,6 +198,7 @@ void URadialUIBase::UpdateInventory(float Degree)
 				{
 					SetToolDescription(MopDescriptionTexture, 1.f);
 					Inventory[Index]->SetOpacity(1.f);
+					Inventory[Index]->SetToolIconSize(120.f);
 				}
 			}
 			break;
@@ -206,6 +208,7 @@ void URadialUIBase::UpdateInventory(float Degree)
 				{
 					SetToolDescription(FlashlightDescriptionTexture, 1.f);
 					Inventory[Index]->SetOpacity(1.f);
+					Inventory[Index]->SetToolIconSize(120.f);
 				}
 			}
 			break;
@@ -215,6 +218,7 @@ void URadialUIBase::UpdateInventory(float Degree)
 				{
 					SetToolDescription(AxeDescriptionTexture, 1.f);
 					Inventory[Index]->SetOpacity(1.f);
+					Inventory[Index]->SetToolIconSize(120.f);
 				}
 			}
 			break;
@@ -224,6 +228,7 @@ void URadialUIBase::UpdateInventory(float Degree)
 				{
 					SetToolDescription(SpongeDescriptionTexture, 1.f);
 					Inventory[Index]->SetOpacity(1.f);
+					Inventory[Index]->SetToolIconSize(120.f);
 				}
 			}
 			break;
@@ -233,6 +238,7 @@ void URadialUIBase::UpdateInventory(float Degree)
 				{
 					SetToolDescription(HandDescriptionTexture, 1.f);
 					Inventory[Index]->SetOpacity(1.f);
+					Inventory[Index]->SetToolIconSize(120.f);
 				}
 			}
 			break;
@@ -244,6 +250,7 @@ void URadialUIBase::UpdateInventory(float Degree)
 				{
 					Inventory[i]->SetOpacity(0.f);
 					Inventory[i]->SetToolIconOpacity(1.f);
+					Inventory[i]->SetToolIconSize(100.f);
 				}
 			}
 		}
