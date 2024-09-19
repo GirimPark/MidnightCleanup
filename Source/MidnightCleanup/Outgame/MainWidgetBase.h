@@ -19,7 +19,7 @@ public:
 	void OnRoomCreated();
 
 	UFUNCTION(BlueprintCallable)
-	void OnRoomJoined(FName IpAddress);
+	void OnRoomJoined(FString IpAddress);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stat")
 	FString CreatedRoomLevelName;
