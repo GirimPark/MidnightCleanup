@@ -3,6 +3,7 @@
 
 #include "InteractionMonitor.h"
 #include "Components/WidgetComponent.h"
+#include "Components/StaticMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
 
@@ -14,10 +15,15 @@ AInteractionMonitor::AInteractionMonitor()
 	bReplicates = true;
 
 	Widget = CreateDefaultSubobject<UWidgetComponent>(TEXT("Widget"));
-
 	if (Widget)
 	{
 		Widget->SetupAttachment(RootComponent);
+	}
+
+	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMesh"));
+	if (StaticMesh)
+	{
+		StaticMesh->SetupAttachment(RootComponent);
 	}
 }
 

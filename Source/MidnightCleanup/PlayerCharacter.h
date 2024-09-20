@@ -71,6 +71,12 @@ public:
 	void EnableKeypad();
 	void DisableKeypad();
 
+	UFUNCTION(BlueprintCallable)
+	void SetCameraLocation(FVector Location);
+
+	UFUNCTION(BlueprintCallable)
+	void EnableLaptop();
+
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TObjectPtr<class USkeletalMeshComponent> FPSMesh;
@@ -482,4 +488,15 @@ public:
 	void OnRep_SetEraseStartState();
 
 	void DecreaseFurnitureDurability(float InMaxHp, float InCurrentHp);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void MoveCameraToComputer(class USplineComponent* InPath);
+
+	UFUNCTION(NetMulticast, Reliable)
+	void S2A_SetCameraLocation(FVector Location);
+	void S2A_SetCameraLocation_Implementation(FVector Location);
+
+	UFUNCTION(Client, Reliable)
+	void S2C_EnableLaptop();
+	void S2C_EnableLaptop_Implementation();
 };

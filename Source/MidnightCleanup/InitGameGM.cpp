@@ -10,12 +10,17 @@ void AInitGameGM::InitGame(const FString& MapName, const FString& Options, FStri
 	bUseSeamlessTravel = true;
 }
 
-void AInitGameGM::StartStage1()
+void AInitGameGM::OpenStage1()
 {
 	GetWorld()->ServerTravel(StageName1);
 }
 
-void AInitGameGM::StartStage2()
+void AInitGameGM::OpenStage2()
 {
 	GetWorld()->ServerTravel(StageName2);
+}
+
+void AInitGameGM::OpenInGame()
+{
+	GetWorld()->ServerTravel(TEXT("L_InGame"));
 }

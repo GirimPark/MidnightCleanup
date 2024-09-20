@@ -39,7 +39,7 @@
 #include "InteractionKeypad.h"
 #include "Seunggi/InGameGM.h"
 #include "Seunggi\ObjectOrganize.h"
-
+#include "InitGamePC.h"
 // Sets default values
 APlayerCharacter::APlayerCharacter()
 {
@@ -125,6 +125,7 @@ void APlayerCharacter::BeginPlay()
 void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
 	if (HighlightedActor)
 	{
 		HighlightedActor->DrawOutline(false);
@@ -860,6 +861,30 @@ void APlayerCharacter::DisableKeypad()
 	{
 		PC->HideRewardWidget();
 		PC->C2S_OpenInitGame();
+	}
+}
+
+void APlayerCharacter::SetCameraLocation(FVector Location)
+{
+	S2A_SetCameraLocation(Location);
+}
+
+void APlayerCharacter::EnableLaptop()
+{
+	S2C_EnableLaptop();
+}
+
+void APlayerCharacter::S2C_EnableLaptop_Implementation()
+{
+	if (!IsLocallyControlled())
+	{
+		return;
+	}
+
+	AInitGamePC* PC = Cast<AInitGamePC>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	if (PC)
+	{
+		PC->ShowLaptopWidget();
 	}
 }
 
@@ -2021,6 +2046,13 @@ void APlayerCharacter::DecreaseFurnitureDurability(float InMaxHp, float InCurren
 			TempPC->UpdateFurnitureProgressBar(InMaxHp, InCurrentHp);
 		}
 	}
+}
+
+void APlayerCharacter::S2A_SetCameraLocation_Implementation(FVector Location)
+{
+	Camera->bUsePawnControlRotation = false;
+	Camera->SetWorldLocation(Location);
+	Camera->SetWorldRotation(FQuat::MakeFromRotator(FRotator(0.f, -90.f,0.f)));
 }
 
 void APlayerCharacter::C2S_SetOwnedActor_Implementation(class AInteractionPickUpObject* InteractiveObject)

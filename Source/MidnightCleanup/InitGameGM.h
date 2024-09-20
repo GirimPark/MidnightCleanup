@@ -17,8 +17,9 @@ class MIDNIGHTCLEANUP_API AInitGameGM : public AGameModeBase
 public:
 	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
 
-	void StartStage1();
-	void StartStage2();
+	void OpenStage1();
+	void OpenStage2();
+	void OpenInGame();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString StageName1;

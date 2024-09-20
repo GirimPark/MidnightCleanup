@@ -3,36 +3,51 @@
 
 #include "InitGamePC.h"
 #include "LaptopWidgetBase.h"
+#include "EnhancedInputSubsystems.h"
+#include "Kismet/GameplayStatics.h"
+#include "InitGameGM.h"
 
 void AInitGamePC::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (LaptopWidgetClass)
+	UEnhancedInputLocalPlayerSubsystem* SubSystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
+	if (SubSystem && DefaultIMC)
 	{
-		if (IsLocalPlayerController())
+		SubSystem->AddMappingContext(DefaultIMC, 0);
+	}
+
+	if (IsLocalPlayerController())
+	{
+		bShowMouseCursor = false;
+		FInputModeGameOnly InputMode;
+		SetInputMode(InputMode);
+
+		if (LaptopWidgetClass)
 		{
 			LaptopWidget = CreateWidget<ULaptopWidgetBase>(this, LaptopWidgetClass);
-
-			LaptopWidget->AddToViewport();
-
-			bShowMouseCursor = true;
-			FInputModeUIOnly InputMode;
-			InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::LockAlways);
-			SetInputMode(InputMode);
+			if (LaptopWidget)
+			{
+				LaptopWidget->AddToViewport();
+				LaptopWidget->SetVisibility(ESlateVisibility::Hidden);
+			}
 		}
 	}
 }
 
-void AInitGamePC::ChangeClientLevel()
+void AInitGamePC::ShowLaptopWidget()
 {
-	if (!IsLocalPlayerController())
+	bShowMouseCursor = true;
+	FInputModeUIOnly InputMode;
+	SetInputMode(InputMode);
+	LaptopWidget->SetVisibility(ESlateVisibility::Visible);
+}
+
+void AInitGamePC::C2S_OpenInGame_Implementation()
+{
+	AInitGameGM* GM = Cast<AInitGameGM>(UGameplayStatics::GetGameMode(GetWorld()));
+	if (GM)
 	{
-		return;
+		GM->OpenInGame();
 	}
-
-	LaptopWidget->SetVisibility(ESlateVisibility::Hidden);
-	SetInputMode(FInputModeGameOnly());
-
-	ClientTravel(TEXT("/Game/Maps/L_TutorialTest.L_TutorialTest"), ETravelType::TRAVEL_Absolute);
 }

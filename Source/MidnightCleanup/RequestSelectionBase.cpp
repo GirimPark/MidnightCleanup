@@ -5,7 +5,6 @@
 #include "Kismet/GameplayStatics.h"
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
-#include "InitGameGM.h"
 #include "InitGamePC.h"
 #include "GI.h"
 
@@ -38,26 +37,18 @@ void URequestSelectionBase::NativeConstruct()
 
 void URequestSelectionBase::ClickedStageButton1()
 {
-	AInitGameGM* GM = Cast<AInitGameGM>(UGameplayStatics::GetGameMode(GetWorld()));
-	if (GM)
+	AInitGamePC* PC = Cast<AInitGamePC>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	if (PC)
 	{
-		GM->StartStage1();
+		PC->C2S_OpenInGame();
 	}
-	/*else
-	{
-		AInitGamePC* PC = Cast<AInitGamePC>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
-		if (PC)
-		{
-			PC->ChangeClientLevel();
-		}
-	}*/
 }
 
 void URequestSelectionBase::ClickedStageButton2()
 {
-	AInitGameGM* GM = Cast<AInitGameGM>(UGameplayStatics::GetGameMode(GetWorld()));
-	if (GM)
+	AInitGamePC* PC = Cast<AInitGamePC>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	if (PC)
 	{
-		GM->StartStage2();
+		PC->C2S_OpenInGame();
 	}
 }
