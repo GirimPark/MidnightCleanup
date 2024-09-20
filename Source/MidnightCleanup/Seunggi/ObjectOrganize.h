@@ -37,7 +37,7 @@ public:
 	void S2A_AttachObject(AInteractionPickUpObject* Object);
 	void S2A_AttachObject_Implementation(AInteractionPickUpObject* Object);
 	
-
+	void Initialize();
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

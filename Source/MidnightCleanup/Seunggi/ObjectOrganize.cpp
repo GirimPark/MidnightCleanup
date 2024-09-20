@@ -13,17 +13,7 @@ void AObjectOrganize::BeginPlay()
 	Box->OnComponentBeginOverlap.AddDynamic(this, &AObjectOrganize::ProcessBeginOverlap);
 	Box->OnComponentEndOverlap.AddDynamic(this, &AObjectOrganize::ProcessEndOverlap);
 
-	if(TargetObject)
-	{
-		StaticMesh->SetStaticMesh(TargetObject->StaticMesh->GetStaticMesh());
-		
-		if (MaterialInstance)
-		{
-			StaticMesh->SetMaterial(0, MaterialInstance);
-			StaticMesh->SetMaterial(1, MaterialInstance);
-		}
-		StaticMesh->SetVisibility(false);
-	}
+	Initialize();
 }
 
 void AObjectOrganize::Tick(float DeltaTime)
@@ -115,5 +105,21 @@ void AObjectOrganize::S2A_AttachObject_Implementation(AInteractionPickUpObject* 
 
 	Object->AttachToComponent(StaticMesh, AttachmentRules);
 	Object->DetachFromActor(DetachmentRules);
+	Object->bIsCleaning = true;
+}
+
+void AObjectOrganize::Initialize()
+{
+	if (TargetObject)
+	{
+		StaticMesh->SetStaticMesh(TargetObject->StaticMesh->GetStaticMesh());
+
+		if (MaterialInstance)
+		{
+			StaticMesh->SetMaterial(0, MaterialInstance);
+			StaticMesh->SetMaterial(1, MaterialInstance);
+		}
+		StaticMesh->SetVisibility(false);
+	}
 }
 

@@ -323,7 +323,6 @@ void AInGameGM::DecreaseTime()
 		GS->CurrentPlayTime--;
 		GS->OnRep_UpdateTime();
 
-		UE_LOG(LogTemp, Warning, TEXT("DecreaseTime"));
 		int32 Time = GS->PlayTime - GS->CurrentPlayTime;
 		if (EventTimeIndex<EventTime.Num()&& Time == EventTime[EventTimeIndex])
 		{

@@ -8,6 +8,9 @@
 #include "../BasicTool.h"
 #include "PhysicsEngine/PhysicsHandleComponent.h"
 #include "Net/UnrealNetwork.h"
+#include "Kismet\GameplayStatics.h"
+#include "Sound\SoundCue.h"
+#include "Components/AudioComponent.h"
 
 AInteractionPickUpObject::AInteractionPickUpObject()
 {
@@ -15,7 +18,20 @@ AInteractionPickUpObject::AInteractionPickUpObject()
 	Box->SetSimulatePhysics(true);
 	Box->SetUseCCD(true);
 	ObjectType = EObjectType::ObjectType_PickUp;
+	Box->OnComponentHit.AddDynamic(this, &AInteractionPickUpObject::ProcessBeginOverlap);
+	//Box->OnComponentBeginOverlap.AddDynamic(this, &AInteractionPickUpObject::ProcessBeginOverlap);
+}
+
+
+void AInteractionPickUpObject::BeginPlay()
+{
+	Super::BeginPlay();
 	
+	AudioComponent = NewObject<UAudioComponent>(this);
+	AudioComponent->SetupAttachment(RootComponent);
+	AudioComponent->SetSound(DropSound);  // DropSound는 사운드 큐로 설정
+
+	AudioComponent->RegisterComponent();
 }
 
 void AInteractionPickUpObject::InterAction(APawn* Character)
@@ -209,6 +225,7 @@ void AInteractionPickUpObject::SetObjectOwner(APawn* Character)
 void AInteractionPickUpObject::S2A_SetObjectOwner_Implementation(APawn* Character)
 {
 	ObjectOwner = Character;
+	bIsCleaning = false;
 }
 
 void AInteractionPickUpObject::S2A_SetDuplicateActor_Implementation(AInteractionPickUpObject* Actor)
@@ -222,6 +239,32 @@ void AInteractionPickUpObject::GetLifetimeReplicatedProps(TArray<FLifetimeProper
 
 	DOREPLIFETIME(AInteractionPickUpObject, ObjectOwner);
 	DOREPLIFETIME(AInteractionPickUpObject, DuplicateActor);
+}
+
+void AInteractionPickUpObject::ProcessBeginOverlap(UPrimitiveComponent* HitComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, FVector NormalImpulse,const FHitResult& Hit)
+{
+	if (ObjectOwner)
+	{
+		return;
+	}
+	
+	UE_LOG(LogTemp, Warning, TEXT("impulse size : %f"), NormalImpulse.Size());
+	if (NormalImpulse.Size() > 100)
+	{
+		if (DropSound&& AudioComponent)
+		{
+			if (!AudioComponent->IsPlaying())
+			{
+				AudioComponent->Play();
+				UE_LOG(LogTemp, Warning, TEXT("Playing sound"));
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Sound is already playing"));
+			}
+		}
+	}
 }
 
 void AInteractionPickUpObject::DropObject(APawn* Character)

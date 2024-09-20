@@ -27,6 +27,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	EPickUpObjectType PickUpObjectType;
 
+	virtual void BeginPlay()override;
 
 	virtual void InterAction(APawn* Character) override;
 	
@@ -83,9 +84,20 @@ public:
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
+	UFUNCTION()
+	void ProcessBeginOverlap(UPrimitiveComponent* HitComponent, AActor* OtherActor,
+		UPrimitiveComponent* OtherComp, FVector NormalImpulse,const FHitResult& Hit);
+
 public:
 	FTimerHandle TimerHandle;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	bool bIsCleaning = true;
+	bool bIsCleaning = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class USoundCue* DropSound;
+
+	UPROPERTY()
+	UAudioComponent* AudioComponent;
+
 };
