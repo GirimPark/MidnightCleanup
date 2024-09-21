@@ -41,6 +41,10 @@ void AInteractionPickUpObject::DrawOutline(bool Draw)
 	StaticMesh->SetRenderCustomDepth(Draw);
 }
 
+void AInteractionPickUpObject::UpdateToolTip(APlayerCharacter* Player)
+{
+}
+
 void AInteractionPickUpObject::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);

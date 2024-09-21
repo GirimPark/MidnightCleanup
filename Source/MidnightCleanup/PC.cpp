@@ -13,6 +13,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Seunggi/InGameGM.h"
 #include "InteractionFurniture.h"
+#include "ToolTipWidgetBase.h"
 
 void APC::BeginPlay()
 {
@@ -192,6 +193,15 @@ void APC::UpdateFurnitureProgressBar(float InMaxHp, float InCurrentHp)
 	if (InGameWidget && InGameWidget->FurnitureProgressBox)
 	{
 		InGameWidget->FurnitureProgressBox->UpdatePercent(InCurrentHp / InMaxHp);
+	}
+}
+
+void APC::UpdateToolTip(FText InText)
+{
+	if (InGameWidget && InGameWidget->ToolTipBox)
+	{
+		InGameWidget->ToolTipBox->UpdateScript(InText);
+		UE_LOG(LogTemp, Error, TEXT("APC::UpdateToolTip"));
 	}
 }
 

@@ -2,6 +2,8 @@
 
 
 #include "InteractionDoor.h"
+#include "../ToolTipComponent.h"
+#include "../PlayerCharacter.h"
 
 AInteractionDoor::AInteractionDoor()
 {
@@ -18,6 +20,16 @@ void AInteractionDoor::InterAction(APawn* Player)
 
 void AInteractionDoor::DrawOutline(bool Draw)
 {
+}
+
+void AInteractionDoor::UpdateToolTip(APlayerCharacter* Player)
+{
+	FToolTipData* ToolTip = Player->ToolTip->GetToolTipByID(FName(TEXT("Door")));
+
+	if (ToolTip && Player->CurrentToolTipData->Priority >= ToolTip->Priority)
+	{
+		Player->UpdateToolTip(ToolTip);
+	}
 }
 
 void AInteractionDoor::Tick(float DeltaTime)

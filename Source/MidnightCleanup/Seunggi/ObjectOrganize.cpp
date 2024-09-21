@@ -5,6 +5,7 @@
 #include "../PlayerCharacter.h"
 #include "Components\BoxComponent.h"
 #include "InteractionPickUpObject.h"
+#include "../ToolTipComponent.h"
 
 void AObjectOrganize::BeginPlay()
 {
@@ -78,6 +79,16 @@ void AObjectOrganize::InterAction(APawn* Character)
 void AObjectOrganize::DrawOutline(bool Draw)
 {
 	
+}
+
+void AObjectOrganize::UpdateToolTip(APlayerCharacter* Player)
+{
+	FToolTipData* ToolTip = Player->ToolTip->GetToolTipByID(FName(TEXT("FurnitureOrganize")));
+
+	if (ToolTip && Player->CurrentToolTipData->Priority >= ToolTip->Priority)
+	{
+		Player->UpdateToolTip(ToolTip);
+	}
 }
 
 void AObjectOrganize::DrawHologram(bool Draw)

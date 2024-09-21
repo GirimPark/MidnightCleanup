@@ -23,6 +23,8 @@ public:
 
 	virtual void InterAction(APawn* Character) override;
 
+	virtual void UpdateToolTip(APlayerCharacter* Player) override;
+
 	virtual void Destroyed()override;
 
 	virtual void DrawOutline(bool state)override;

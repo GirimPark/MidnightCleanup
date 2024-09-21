@@ -27,6 +27,8 @@ public:
 
 	virtual void DrawOutline(bool Draw) override;
 
+	virtual void UpdateToolTip(class APlayerCharacter* Player) override;
+
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	UFUNCTION(NetMulticast, Reliable)

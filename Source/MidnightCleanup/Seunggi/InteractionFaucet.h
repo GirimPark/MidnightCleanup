@@ -23,6 +23,8 @@ public:
 
 	virtual void DrawOutline(bool Draw) override;
 
+	virtual void UpdateToolTip(class APlayerCharacter* Player) override;
+
 	UFUNCTION(Netmulticast,Reliable)
 	void S2A_FillBucket(class AInteractionBucket* Bucket);
 	void S2A_FillBucket_Implementation(class AInteractionBucket* Bucket);

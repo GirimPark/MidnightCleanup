@@ -74,6 +74,7 @@ public:
 
 	void PickUpTool(APawn* Character);
 
+	virtual void UpdateToolTip(class APlayerCharacter* Player) override;
 
 	UFUNCTION(NetMulticast, Reliable)
 	virtual void S2A_VisibleTool(bool State);

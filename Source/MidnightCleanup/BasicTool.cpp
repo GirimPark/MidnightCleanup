@@ -10,6 +10,7 @@
 #include "Components/TextRenderComponent.h"
 #include "Mop.h"
 #include "Sponge.h"
+#include "ToolTipComponent.h"
 
 // Sets default values
 ABasicTool::ABasicTool()
@@ -240,6 +241,15 @@ void ABasicTool::PickUpTool(APawn* Character)
 	}
 }
 
+void ABasicTool::UpdateToolTip(APlayerCharacter* Player)
+{
+	FToolTipData* ToolTip = Player->ToolTip->GetToolTipByID(FName(TEXT("PickUp")));
+
+	if (ToolTip && Player->CurrentToolTipData->Priority >= ToolTip->Priority)
+	{
+		Player->UpdateToolTip(ToolTip);
+	}
+}
 
 void ABasicTool::S2A_VisibleTool_Implementation(bool State)
 {

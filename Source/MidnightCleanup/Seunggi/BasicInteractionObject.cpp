@@ -4,6 +4,7 @@
 #include "BasicInteractionObject.h"
 #include "Components\BoxComponent.h"
 #include "Components\StaticMeshComponent.h"
+#include "../ToolTipComponent.h"
 #include "Perception\AIPerceptionStimuliSourceComponent.h"
 
 // Sets default values
@@ -24,7 +25,7 @@ ABasicInteractionObject::ABasicInteractionObject()
 	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMesh"));
 	StaticMesh->SetupAttachment(RootComponent);
 	
-	
+
 	//StaticMesh->SetSimulatePhysics(true);
 }
 

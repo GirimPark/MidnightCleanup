@@ -13,6 +13,7 @@
 #include "Blueprint/WidgetLayoutLibrary.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "FurnitureProgressBase.h"
+#include "ToolTipWidgetBase.h"
 
 void UInGameWidgetBase::NativeConstruct()
 {
@@ -21,6 +22,7 @@ void UInGameWidgetBase::NativeConstruct()
 	RadialUIBox = Cast<URadialUIBase>(GetWidgetFromName(TEXT("RadialUI")));
 	AimBox = Cast<UUserWidget>(GetWidgetFromName(TEXT("Aim")));
 	FurnitureProgressBox = Cast<UFurnitureProgressBase>(GetWidgetFromName(TEXT("FurnitureProgress")));
+	ToolTipBox = Cast<UToolTipWidgetBase>(GetWidgetFromName(TEXT("ToolTip")));
 }
 
 void UInGameWidgetBase::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)

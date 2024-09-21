@@ -4,6 +4,8 @@
 #include "InteractionSwitch.h"
 #include "InteractionLightActor.h"
 #include "Components\PointLightComponent.h"
+#include "../ToolTipComponent.h"
+#include "../PlayerCharacter.h"
 
 AInteractionSwitch::AInteractionSwitch()
 {
@@ -35,6 +37,24 @@ void AInteractionSwitch::InterAction(APawn* Character)
 void AInteractionSwitch::DrawOutline(bool Draw)
 {
 	StaticMesh->SetRenderCustomDepth(Draw);
+}
+
+void AInteractionSwitch::UpdateToolTip(APlayerCharacter* Player)
+{
+	FToolTipData* ToolTip = nullptr;
+	if (bIsLighting)
+	{
+		Player->ToolTip->GetToolTipByID(FName(TEXT("SwitchOff")));
+	}
+	else
+	{
+		Player->ToolTip->GetToolTipByID(FName(TEXT("SwitchOn")));
+	}
+
+	if (ToolTip && Player->CurrentToolTipData->Priority >= ToolTip->Priority)
+	{
+		Player->UpdateToolTip(ToolTip);
+	}
 }
 
 void AInteractionSwitch::Tick(float DeltaTime)

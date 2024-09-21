@@ -24,6 +24,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
 	TObjectPtr<class ULaptopWidgetBase> LaptopWidget;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<class ULaptopWidgetBase> ToolTipWidgetClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
+	TObjectPtr<class ULaptopWidgetBase> ToolTipWidget;
+
 	virtual void BeginPlay() override;
 
 	void ShowLaptopWidget();

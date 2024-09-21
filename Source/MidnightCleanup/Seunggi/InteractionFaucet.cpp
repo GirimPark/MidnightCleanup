@@ -6,6 +6,7 @@
 #include "Components\StaticMeshComponent.h"
 #include "../PlayerCharacter.h"
 #include "../InteractionBucket.h"
+#include "../ToolTipComponent.h"
 
 AInteractionFaucet::AInteractionFaucet()
 {
@@ -46,6 +47,16 @@ void AInteractionFaucet::InterAction(APawn* Character)
 void AInteractionFaucet::DrawOutline(bool Draw)
 {
 	Hologram->SetVisibility(Draw);
+}
+
+void AInteractionFaucet::UpdateToolTip(APlayerCharacter* Player)
+{
+	FToolTipData* ToolTip = Player->ToolTip->GetToolTipByID(FName(TEXT("FillBucket")));
+
+	if (ToolTip && Player->CurrentToolTipData->Priority >= ToolTip->Priority)
+	{
+		Player->UpdateToolTip(ToolTip);
+	}
 }
 
 void AInteractionFaucet::S2A_FillBucket_Implementation(class AInteractionBucket* Bucket)

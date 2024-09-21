@@ -40,6 +40,8 @@
 #include "Seunggi/InGameGM.h"
 #include "Seunggi\ObjectOrganize.h"
 #include "InitGamePC.h"
+#include "ToolTipComponent.h"
+
 // Sets default values
 APlayerCharacter::APlayerCharacter()
 {
@@ -76,6 +78,8 @@ APlayerCharacter::APlayerCharacter()
 		Trace3DWidget->InteractionDistance = 500.f;
 		Trace3DWidget->bShowDebug = true;
 	}
+
+	ToolTip = CreateDefaultSubobject<UToolTipComponent>(TEXT("ToolTip"));
 
 	Inventory.SetNum(4);
 	CurrentInventoryIndex = 0;
@@ -119,6 +123,8 @@ void APlayerCharacter::BeginPlay()
 		FPSMesh->SetVisibility(false);
 		GetMesh()->SetVisibility(true);
 	}
+
+	CurrentToolTipData = ToolTip->GetToolTipByID(FName(TEXT("Inventory")));
 }
 
 // Called every frame
@@ -312,6 +318,7 @@ void APlayerCharacter::Tick(float DeltaTime)
 			if (HighlightedActor)
 			{
 				HighlightedActor->DrawOutline(true);
+				HighlightedActor->UpdateToolTip(this);
 			}
 
 
@@ -872,6 +879,20 @@ void APlayerCharacter::SetCameraLocation(FVector Location)
 void APlayerCharacter::EnableLaptop()
 {
 	S2C_EnableLaptop();
+}
+
+void APlayerCharacter::UpdateToolTip(FToolTipData* InData)
+{
+	if (!IsLocallyControlled())
+	{
+		return;
+	}
+
+	APC* PC = Cast<APC>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	if (PC)
+	{
+		PC->UpdateToolTip(InData->Script);
+	}
 }
 
 void APlayerCharacter::S2C_EnableLaptop_Implementation()

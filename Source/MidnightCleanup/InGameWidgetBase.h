@@ -22,12 +22,15 @@ public:
 
 	int32 GetCurrentInventoryIndex();
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "RadialUI")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "InGame")
 	TObjectPtr<class URadialUIBase> RadialUIBox;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "RadialUI")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "InGame")
 	TObjectPtr<class UUserWidget> AimBox;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "RadialUI")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "InGame")
+	TObjectPtr<class UToolTipWidgetBase> ToolTipBox;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "InGame")
 	TObjectPtr<class UFurnitureProgressBase> FurnitureProgressBox;
 };

@@ -36,6 +36,8 @@ public:
 
 	virtual void DrawOutline(bool Draw) override;
 
+	virtual void UpdateToolTip(class APlayerCharacter* Player) override;
+
 	virtual void Tick(float DeltaTime)override;
 
 	UFUNCTION(NetMulticast, Reliable)

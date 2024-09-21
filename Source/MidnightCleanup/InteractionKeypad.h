@@ -17,6 +17,7 @@ class MIDNIGHTCLEANUP_API AInteractionKeypad : public ABasicInteractionObject
 public:
 	virtual void InterAction(APawn* Character) override;
 	virtual void DrawOutline(bool Draw) override;
+	virtual void UpdateToolTip(class APlayerCharacter* Player) override;
 
 	UFUNCTION(NetMulticast, Reliable)
 	void S2A_ShowRewardWidget(APlayerCharacter* Player);

@@ -17,6 +17,7 @@
 #include "Field/FieldSystemComponent.h"
 #include "Field/FieldSystemNodes.h"
 #include "Seunggi\FurnitureFieldSystemActor.h"
+#include "ToolTipComponent.h"
 
 AInteractionFurniture::AInteractionFurniture()
 {
@@ -60,6 +61,16 @@ void AInteractionFurniture::Tick(float DeltaTime)
 
 void AInteractionFurniture::InterAction(APawn* Character)
 {
+}
+
+void AInteractionFurniture::UpdateToolTip(APlayerCharacter* Player)
+{
+	FToolTipData* ToolTip = Player->ToolTip->GetToolTipByID(FName(TEXT("FurnitureBreak")));
+
+	if (ToolTip && Player->CurrentToolTipData->Priority >= ToolTip->Priority)
+	{
+		Player->UpdateToolTip(ToolTip);
+	}
 }
 
 void AInteractionFurniture::Destroyed()

@@ -5,6 +5,7 @@
 #include "PlayerCharacter.h"
 #include "Components/SplineComponent.h"
 #include "Net/UnrealNetwork.h"
+#include "ToolTipComponent.h"
 
 AInteractionComputer::AInteractionComputer()
 {
@@ -32,6 +33,16 @@ void AInteractionComputer::DrawOutline(bool Draw)
 	if (!bIsActivate)
 	{
 		StaticMesh->SetRenderCustomDepth(Draw);
+	}
+}
+
+void AInteractionComputer::UpdateToolTip(APlayerCharacter* Player)
+{
+	FToolTipData* ToolTip = Player->ToolTip->GetToolTipByID(FName(TEXT("Computer")));
+
+	if (ToolTip && Player->CurrentToolTipData->Priority >= ToolTip->Priority)
+	{
+		Player->UpdateToolTip(ToolTip);
 	}
 }
 

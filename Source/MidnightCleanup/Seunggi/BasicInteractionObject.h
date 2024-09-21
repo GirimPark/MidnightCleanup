@@ -35,6 +35,9 @@ public:
 
 	virtual void DrawOutline(bool Draw) PURE_VIRTUAL(ABasicInteractionObject::DrawOutline);
 
+	virtual void UpdateToolTip(class APlayerCharacter* Player) PURE_VIRTUAL(ABasicInteractionObject::UpdateToolTip);
+
+
 public:
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 	class UStaticMeshComponent* StaticMesh;
@@ -44,4 +47,5 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 	EObjectType ObjectType;
+
 };

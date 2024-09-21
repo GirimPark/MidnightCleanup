@@ -28,6 +28,7 @@ public:
 
 	virtual void InterAction(APawn* Player) override;
 	virtual void DrawOutline(bool Draw) override;
+	virtual void UpdateToolTip(class APlayerCharacter* Player) override;
 
 	virtual void Tick(float DeltaTime) override;
 

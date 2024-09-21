@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "ToolTipData.h"
 #include "PlayerCharacter.generated.h"
 
 struct FInputActionValue;
@@ -77,6 +78,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void EnableLaptop();
 
+	void UpdateToolTip(FToolTipData* InData);
+
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TObjectPtr<class USkeletalMeshComponent> FPSMesh;
@@ -94,6 +97,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 	TObjectPtr<class UWidgetInteractionComponent> Trace3DWidget;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
+	TObjectPtr<class UToolTipComponent> ToolTip;
 
 	// Input Action
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
@@ -134,6 +140,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
 	TObjectPtr<class UInputAction> EscAction;
+
+	FToolTipData* CurrentToolTipData;
 
 	// Owned Actor
 	UPROPERTY(VisibleAnywhere, Replicated)

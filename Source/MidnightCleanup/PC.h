@@ -42,6 +42,7 @@ public:
 	bool IsEnableRewardWidget();
 	void UpdateInventoryByUI(class APlayerCharacter* InPlayer);
 	void UpdateFurnitureProgressBar(float InMaxHp, float InCurrentHp);
+	void UpdateToolTip(FText InText);
 
 	UFUNCTION(Server, Reliable)
 	void C2S_OpenInitGame();
